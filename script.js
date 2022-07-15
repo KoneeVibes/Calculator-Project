@@ -1,3 +1,7 @@
+const calculator = document.querySelector('.calculator'),
+      keys = calculator.querySelector('.calculator_keys'),
+      display = calculator.querySelector('.calculator_display');
+
 const calculate = (n1, operator, n2) => {
   let result = ''
   if (operator === 'add') {
@@ -6,16 +10,14 @@ const calculate = (n1, operator, n2) => {
     result = parseFloat(n1) - parseFloat(n2)
   } else if (operator === 'multiply') {
     result = parseFloat(n1) * parseFloat(n2)
-  } else if (operator === 'divide') {
+  } 
+  // (operator === 'divide') --- condition
+  else {
     result = parseFloat(n1) / parseFloat(n2)
   }
 
   return result
 }
-
-const calculator = document.querySelector('.calculator'),
-      keys = calculator.querySelector('.calculator_keys'),
-      display = calculator.querySelector('.calculator_display');
 
 // setting the default display value on the screen 
 display.textContent = 0
@@ -29,39 +31,43 @@ keys.addEventListener('click', e=>{
               displayedNum = display.textContent,
               previousKeyType = calculator.dataset.previousKeyType;
         
-        // Array.from(key.parentNode.children).forEach(i => {
-        //     i.classList.remove('is-depressed')
-        // })
-        // console.log(key)
+        Array.from(key.parentNode.children).forEach(i => {
+            i.classList.remove('is-depressed')
+        })
+        // console.log(action)
+
+        // operator key
+        if (action === 'add' || action === 'subtract' || 
+        action === 'multiply' || action === 'divide'){
+            key.classList.add('is-depressed');
+            calculator.dataset.previousKeyType = 'operator';
+            calculator.dataset.firstValue = (display.textContent);
+            calculator.dataset.operator = action;
+        }
 
         // number keys
-        if (!action) {
+        else if (!action) {
             if (displayedNum === '0' || previousKeyType === 'operator'){
                 display.textContent = keyContent;
             }
             else{
                 display.textContent = displayedNum + keyContent
+                console.log(display.textContent)
             }
         }
+
         // decimal key
-        if(action === 'decimal'){
+        else if(action === 'decimal'){
             display.textContent = displayedNum + '.'
         }
-        // operator key
-        if (action === 'add' || action === 'subtract' || 
-        action === 'multiply' || action === 'divide'){
-            // key.classList.add('is-depressed');
-            calculator.dataset.previousKeyType = 'operator';
-            calculator.dataset.firstValue = display.textContent;
-            calculator.dataset.operator = action;
 
-        }
         // clear key
-        if(action === 'clear'){
+        else if(action === 'clear'){
             console.log('clear key')
         }
-        // equal-to key
-        if(action === 'calculate'){
+
+        // equal-to key (action === 'calculate') -- condition
+        else{
             const firstValue = calculator.dataset.firstValue,
                   operator = calculator.dataset.operator,
                   secondNumber = displayedNum;
@@ -70,3 +76,13 @@ keys.addEventListener('click', e=>{
         }
     }
 })
+// The issue of 'is-depressed' 
+
+// .remove('is-depressed) does not work;
+// Every other click after that is still detected as the previous operator key
+
+// The issue of firstValue
+// The calculator does not treat the second digit when computing a calculation
+// i.e 77 + 1 = 8
+
+// The calculator does not allow for double digits for secondNumber
