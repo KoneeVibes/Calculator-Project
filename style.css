@@ -29,7 +29,7 @@ body{
   content: "";
   left: 0;
   opacity: 0.3;
-  position: absolute;
+  /* position: absolute; */
   right: 0;
   top: 0;
   z-index: 1;
