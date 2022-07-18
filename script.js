@@ -23,7 +23,7 @@ const calculate = (n1, operator, n2) => {
 display.textContent = 0
 
 // coding every event of a button click
-keys.addEventListener('click', e=>{
+keys.addEventListener("click", e=>{
     if (e.target.matches('button')){
         const key = e.target,
               action = key.dataset.action,
@@ -83,6 +83,6 @@ keys.addEventListener('click', e=>{
 
 // The issue of firstValue
 // The calculator does not treat the second digit when computing a calculation
-// i.e 77 + 1 = 8
+// i.e 17 + 1 = 11
 
 // The calculator does not allow for double digits for secondNumber
